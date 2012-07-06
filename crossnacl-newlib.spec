@@ -31,6 +31,7 @@ Source3:	pthread.h
 URL:		http://sourceware.org/newlib/
 BuildRequires:	crossnacl-binutils
 BuildRequires:	crossnacl-gcc
+BuildRequires:	fslint
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -87,6 +88,9 @@ sed "s/@OBJFORMAT@/elf32-nacl/" newlib-libc-script > $RPM_BUILD_ROOT%{_prefix}/%
 # 64bit (default)
 mv $RPM_BUILD_ROOT%{_prefix}/%{target}/lib/libc.a $RPM_BUILD_ROOT%{_prefix}/%{target}/lib/libcrt_common.a
 sed "s/@OBJFORMAT@/elf64-nacl/" newlib-libc-script > $RPM_BUILD_ROOT%{_prefix}/%{target}/lib/libc.a
+
+# fix copies to be hardlinks (maybe should symlink in the future)
+findup -m $RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
