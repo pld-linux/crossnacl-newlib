@@ -1,8 +1,8 @@
-%define		gitver f5185a57
+%define		gitver 590577e
 Summary:	C library intended for use on embedded systems
 Name:		crossnacl-newlib
 Version:	1.18.0
-Release:	0.git%{gitver}
+Release:	1.git%{gitver}
 # Generated from git
 # git clone http://git.chromium.org/native_client/nacl-newlib.git
 # (Checkout ID taken from chromium-15.0.874.106/native_client/tools/REVISIONS)
@@ -15,15 +15,15 @@ Release:	0.git%{gitver}
 License:	BSD and MIT and LGPL v2+
 Group:		Libraries
 Source0:	nacl-newlib-%{version}-git%{gitver}.tar.bz2
-# Source0-md5:	50a832085a39ef0fcbdbd5cd30dbbb04
+# Source0-md5:	f1badf60c44a6dc13f41920a432716e8
 # We need to copy some missing header files from chromium
 # mkdir ~/nacl-headers-15.0.874.106
 # cd chromium-15.0.874.106/native_client/
 # ./src/trusted/service_runtime/export_header.py src/trusted/service_runtime/include ~/nacl-headers-15.0.874.106/
 # cd ~/nacl-headers-15.0.874.106
 # tar cfj ~/nacl-headers-15.0.874.106.tar.bz2 .
-Source1:	nacl-headers-15.0.874.106.tar.bz2
-# Source1-md5:	8331aab055dc22b9de70d35c203845f7
+Source1:	nacl-headers-17.0.963.46.tar.bz2
+# Source1-md5:	30182830b595020b3e24258556863d39
 # Taken from chromium-15.0.874.106/native_client/tools/newlib-libc-script
 Source2:	newlib-libc-script
 # Taken from chromium-15.0.874.106/native_client/src/untrusted/pthread/pthread.h
