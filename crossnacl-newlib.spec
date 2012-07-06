@@ -1,33 +1,19 @@
-%define		gitver 590577e
+%define		gitver 096a72b
 Summary:	C library intended for use on embedded systems
 Name:		crossnacl-newlib
-Version:	1.18.0
-Release:	1.git%{gitver}
-# Generated from git
-# git clone http://git.chromium.org/native_client/nacl-newlib.git
-# (Checkout ID taken from chromium-15.0.874.106/native_client/tools/REVISIONS)
-# cd nacl-newlib
-# git checkout f5185a5726155efb578d4d0f6537bc15ee5edb7d
-# cd ..
-# For newlib version, grep PACKAGE_VERSION newlib/libm/configure
-# mv nacl-newlib nacl-newlib-1.18.0-gitf5185a57
-# tar cfj nacl-newlib-1.18.0-gitf5185a57.tar.bz2 nacl-newlib-1.18.0-gitf5185a57
+Version:	1.20.0
+Release:	0.git%{gitver}
 License:	BSD and MIT and LGPL v2+
 Group:		Libraries
 Source0:	nacl-newlib-%{version}-git%{gitver}.tar.bz2
-# Source0-md5:	f1badf60c44a6dc13f41920a432716e8
-# We need to copy some missing header files from chromium
-# mkdir ~/nacl-headers-15.0.874.106
-# cd chromium-15.0.874.106/native_client/
-# ./src/trusted/service_runtime/export_header.py src/trusted/service_runtime/include ~/nacl-headers-15.0.874.106/
-# cd ~/nacl-headers-15.0.874.106
-# tar cfj ~/nacl-headers-15.0.874.106.tar.bz2 .
-Source1:	nacl-headers-17.0.963.46.tar.bz2
-# Source1-md5:	30182830b595020b3e24258556863d39
+# Source0-md5:	f91294ce67825ccef1f853094abc42ca
+Source1:	nacl-headers-20.0.1132.47.tar.bz2
+# Source1-md5:	b0c641bbc1046d066c5d4032e7421fc6
 # Taken from chromium-15.0.874.106/native_client/tools/newlib-libc-script
 Source2:	newlib-libc-script
 # Taken from chromium-15.0.874.106/native_client/src/untrusted/pthread/pthread.h
 Source3:	pthread.h
+Source4:	get-source.sh
 URL:		http://sourceware.org/newlib/
 BuildRequires:	crossnacl-binutils
 BuildRequires:	crossnacl-gcc
@@ -46,9 +32,7 @@ This is the nacl fork.
 
 %prep
 %setup -q -n nacl-newlib-%{version}-git%{?gitver}
-cd newlib/libc/sys/nacl
-tar xf %{SOURCE1}
-cd -
+tar -xvf %{SOURCE1} -C newlib/libc/sys/nacl --strip-components=1
 cp -p %{SOURCE2} .
 
 %build
