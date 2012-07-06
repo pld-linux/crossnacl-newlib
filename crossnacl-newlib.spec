@@ -11,7 +11,6 @@ Source1:	nacl-headers-20.0.1132.47.tar.bz2
 # Source1-md5:	b0c641bbc1046d066c5d4032e7421fc6
 # Taken from chromium-15.0.874.106/native_client/tools/newlib-libc-script
 Source2:	newlib-libc-script
-# Taken from chromium-15.0.874.106/native_client/src/untrusted/pthread/pthread.h
 Source3:	pthread.h
 Source4:	get-source.sh
 URL:		http://sourceware.org/newlib/

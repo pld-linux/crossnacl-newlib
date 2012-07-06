@@ -75,14 +75,20 @@ fi
 package=nacl-headers
 prefix=$package-$chrome_version
 if [ -f $prefix.tar.bz2 ]; then
-	echo "Tarball $prefix.tar.bz2 already exists at $shorthash"
-	exit 0
+	echo "Tarball $prefix.tar.bz2 already exists"
+else
+	svn co http://src.chromium.org/native_client/trunk/src/native_client/src/trusted/service_runtime@$nacl_revision $package
+	cd $package
+	./export_header.py include ../$prefix
+	cd ..
+	tar -cjf $prefix.tar.bz2 --exclude-vcs $prefix
+	../dropin $prefix.tar.bz2
 fi
-svn co http://src.chromium.org/native_client/trunk/src/native_client/src/trusted/service_runtime@$nacl_revision $package
-cd $package
-./export_header.py include ../$prefix
-cd ..
-tar -cjf $prefix.tar.bz2 --exclude-vcs $prefix
-../dropin $prefix.tar.bz2
+
+# Taken from chromium-15.0.874.106/native_client/tools/newlib-libc-script
+svn cat http://src.chromium.org/native_client/trunk/src/native_client/tools/newlib-libc-script@$nacl_revision > newlib-libc-script
+
+# Taken from chromium-15.0.874.106/native_client/src/untrusted/pthread/pthread.h
+svn cat http://src.chromium.org/native_client/trunk/src/native_client/src/untrusted/pthread/pthread.h@$nacl_revision > pthread.h
 
 rm -f NACL_REVISIONS.sh DEPS.py configure
