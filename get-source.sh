@@ -43,7 +43,7 @@ else
 fi
 
 # get src/native_client/tools/REVISIONS directly from svn
-test -e NACL_REVISIONS.sh || svn cat https://src.chromium.org/native_client/trunk/src/native_client/tools/REVISIONS@$nacl_revision > NACL_REVISIONS.sh
+test -e NACL_REVISIONS.sh || svn cat $nacl_trunk/src/native_client/tools/REVISIONS@$nacl_revision > NACL_REVISIONS.sh
 
 if grep -Ev '^(#|(LINUX_HEADERS_FOR_NACL|NACL_(BINUTILS|GCC|GDB|GLIBC|NEWLIB))_COMMIT=[0-9a-f]+$|)' NACL_REVISIONS.sh >&2; then
 	echo >&2 "I refuse to execute grabbed file for security concerns"
@@ -59,7 +59,7 @@ prefix=$package-$version-git$shorthash
 
 if [ -f $prefix.tar.bz2 ]; then
 	echo "Tarball $prefix.tar.bz2 already exists at $shorthash"
-else 
+else
 	git archive $githash --prefix $prefix/ > $prefix.tar
 	bzip2 -9 $prefix.tar
 
