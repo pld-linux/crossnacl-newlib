@@ -1,14 +1,14 @@
-%define		gitver 096a72b
+%define		gitver 67e3510
 Summary:	C library intended for use on embedded systems
 Name:		crossnacl-newlib
 Version:	1.20.0
-Release:	0.git%{gitver}
+Release:	1.git%{gitver}
 License:	BSD and MIT and LGPL v2+
 Group:		Libraries
 Source0:	nacl-newlib-%{version}-git%{gitver}.tar.bz2
-# Source0-md5:	f91294ce67825ccef1f853094abc42ca
-Source1:	nacl-headers-20.0.1132.47.tar.bz2
-# Source1-md5:	b0c641bbc1046d066c5d4032e7421fc6
+# Source0-md5:	62471478377d5f99a2ce88213731e500
+Source1:	nacl-headers-21.0.1180.57.tar.bz2
+# Source1-md5:	8e76cde640c1f268e14dbd67568a4bee
 # Taken from chromium-15.0.874.106/native_client/tools/newlib-libc-script
 Source2:	newlib-libc-script
 Source3:	pthread.h
