@@ -9,7 +9,6 @@ Source0:	nacl-newlib-%{version}-git%{gitver}.tar.bz2
 # Source0-md5:	62471478377d5f99a2ce88213731e500
 Source1:	nacl-headers-21.0.1180.57.tar.bz2
 # Source1-md5:	8e76cde640c1f268e14dbd67568a4bee
-# Taken from chromium-15.0.874.106/native_client/tools/newlib-libc-script
 Source2:	newlib-libc-script
 Source3:	pthread.h
 Source4:	get-source.sh
@@ -17,6 +16,8 @@ URL:		http://sourceware.org/newlib/
 BuildRequires:	crossnacl-binutils
 BuildRequires:	crossnacl-gcc
 BuildRequires:	fslint
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

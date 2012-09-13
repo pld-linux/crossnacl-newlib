@@ -61,13 +61,13 @@ version=$(awk -F"'" '/PACKAGE_VERSION=/{print $2}' configure)
 shorthash=$(git rev-parse --short $githash)
 prefix=$package-$version-git$shorthash
 
-if [ -f $prefix.tar.bz2 ]; then
-	echo "Tarball $prefix.tar.bz2 already exists at $shorthash"
+if [ -f $prefix.tar.xz ]; then
+	echo "Tarball $prefix.tar.xz already exists at $shorthash"
 else
 	git archive $githash --prefix $prefix/ > $prefix.tar
-	bzip2 -9 $prefix.tar
+	xz -9 $prefix.tar
 
-	../dropin $prefix.tar.bz2
+	../dropin $prefix.tar.xz
 fi
 
 # We need to copy some missing header files from chromium
@@ -79,15 +79,16 @@ fi
 
 package=nacl-headers
 prefix=$package-$chrome_version
-if [ -f $prefix.tar.bz2 ]; then
-	echo "Tarball $prefix.tar.bz2 already exists"
+if [ -f $prefix.tar.xz ]; then
+	echo "Tarball $prefix.tar.xz already exists"
 else
 	svn co $nacl_trunk/src/native_client/src/trusted/service_runtime@$nacl_revision $package
 	cd $package
 	./export_header.py include ../$prefix
 	cd ..
-	tar -cjf $prefix.tar.bz2 --exclude-vcs $prefix
-	../dropin $prefix.tar.bz2
+	tar -cf $prefix.tar --exclude-vcs $prefix
+	xz -9 $prefix.tar
+	../dropin $prefix.tar.xz
 fi
 
 # Taken from chromium-15.0.874.106/native_client/tools/newlib-libc-script
