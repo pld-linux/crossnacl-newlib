@@ -35,6 +35,8 @@ This is the nacl fork.
 tar -xvf %{SOURCE1} -C newlib/libc/sys/nacl --strip-components=1
 cp -p %{SOURCE2} .
 
+%{__rm} etc/*.texi
+
 %build
 export NEWLIB_CFLAGS="-O2 -D_I386MACH_ALLOW_HW_INTERRUPTS -DSIGNAL_PROVIDED -mtls-use-call"
 %configure \
@@ -48,6 +50,7 @@ export NEWLIB_CFLAGS="-O2 -D_I386MACH_ALLOW_HW_INTERRUPTS -DSIGNAL_PROVIDED -mtl
 	CFLAGS="-O2" \
 	CFLAGS_FOR_TARGET="$NEWLIB_CFLAGS" \
 	CXXFLAGS_FOR_TARGET="$NEWLIB_CFLAGS" \
+	MAKEINFO=/bin/false \
 	--target=%{target}
 
 %{__make}
