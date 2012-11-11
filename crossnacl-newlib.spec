@@ -2,7 +2,7 @@
 Summary:	C library intended for use on embedded systems
 Name:		crossnacl-newlib
 Version:	1.20.0
-Release:	2.git%{gitver}
+Release:	3.git%{gitver}
 License:	BSD and MIT and LGPL v2+
 Group:		Libraries
 Source0:	nacl-newlib-%{version}-git%{gitver}.tar.xz
@@ -28,7 +28,7 @@ Newlib is a C library intended for use on embedded systems. It is a
 conglomeration of several library parts, all under free software
 licenses that make them easily usable on embedded products.
 
-This is the nacl fork.
+This is the NaCl fork.
 
 %prep
 %setup -q -n nacl-newlib-%{version}-git%{?gitver}
@@ -65,7 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # The default pthread.h doesn't work right?
 %{__rm} $RPM_BUILD_ROOT%{_prefix}/%{target}/include/pthread.h
-cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_prefix}/%{target}/include/
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_prefix}/%{target}/include
 
 # We have to hack up libc.a to get things working.
 # 32bit
@@ -75,6 +75,11 @@ sed "s/@OBJFORMAT@/elf32-nacl/" newlib-libc-script > $RPM_BUILD_ROOT%{_prefix}/%
 # 64bit (default)
 mv $RPM_BUILD_ROOT%{_prefix}/%{target}/lib/libc.a $RPM_BUILD_ROOT%{_prefix}/%{target}/lib/libcrt_common.a
 sed "s/@OBJFORMAT@/elf64-nacl/" newlib-libc-script > $RPM_BUILD_ROOT%{_prefix}/%{target}/lib/libc.a
+
+# move to match -m32 -lm search path gcc uses: /usr/x86_64-nacl/lib32/libm.a
+install -d $RPM_BUILD_ROOT%{_prefix}/%{target}/lib32
+mv $RPM_BUILD_ROOT%{_prefix}/%{target}/{lib/32/*,lib32}
+rmdir $RPM_BUILD_ROOT%{_prefix}/%{target}/lib/32
 
 # fix copies to be hardlinks (maybe should symlink in the future)
 findup -m $RPM_BUILD_ROOT
@@ -87,3 +92,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/iconv_data
 %{_prefix}/%{target}/include
 %{_prefix}/%{target}/lib
+%dir %{_prefix}/%{target}/lib32
+%{_prefix}/%{target}/lib32/lib*.a
+%{_prefix}/%{target}/lib32/crt*.o
