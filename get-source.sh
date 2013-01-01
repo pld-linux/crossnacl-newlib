@@ -59,14 +59,14 @@ git show $githash:newlib/libm/configure > configure
 version=$(awk -F"'" '/PACKAGE_VERSION=/{print $2}' configure)
 shorthash=$(git rev-parse --short $githash)
 prefix=$package-$version-git$shorthash
+archive=$prefix.tar.xz
 
-if [ -f $prefix.tar.xz ]; then
-	echo "Tarball $prefix.tar.xz already exists at $shorthash"
+if [ -f $archive ]; then
+	echo "Tarball $archive already exists at $shorthash"
 else
-	git archive $githash --prefix $prefix/ > $prefix.tar
-	xz -9 $prefix.tar
+	git -c tar.tar.xz.command="xz -9c" archive $githash --prefix $prefix/ -o $archive
 
-	../dropin $prefix.tar.xz
+	../dropin $archive
 fi
 
 # We need to copy some missing header files from chromium
@@ -78,6 +78,7 @@ fi
 
 package=nacl-headers
 prefix=$package-$chrome_version
+
 if [ -f $prefix.tar.xz ]; then
 	echo "Tarball $prefix.tar.xz already exists"
 else
