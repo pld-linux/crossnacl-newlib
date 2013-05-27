@@ -16,6 +16,7 @@ URL:		http://sourceware.org/newlib/
 BuildRequires:	crossnacl-binutils
 BuildRequires:	crossnacl-gcc
 BuildRequires:	fslint
+BuildRequires:	python-modules
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 ExclusiveArch:	%{ix86} %{x8664}
